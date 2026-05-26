@@ -1,0 +1,108 @@
+% =============================================================
+% PHYS 4B Lab 7 -- BLANK SCAFFOLD
+% Toderasc section, Tuesday 2026-05-26.
+%
+% Rules baked in (see ../_narrative-rules.md):
+%   1. Lab partners + roles TOP-RIGHT, NOT in \author{}     -- lab-02 feedback
+%   2. Apparatus brief, NO Type/Increment/Unc table          -- lab-01 feedback
+%   3. Schematic: every element + every measured quantity;
+%      current direction + source polarity                  -- lab-02 feedback
+%   4. Regression equation + R^2 ON the figure              -- lab-02 feedback
+%   5. No em-dashes in submitted text
+%   6. >=10 trials when repeating a measurement              -- Day 1 rule
+%   7. t' test for any value comparison                      -- Day 1 rule
+%   8. Never record power-supply or FG dial as data          -- lab-02 feedback
+% =============================================================
+
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{circuitikz}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+\usepackage{setspace}
+
+%  - Custom SCOPE bipole (oscilloscope symbol; same macro as lab-03/lab-05/lab-06.tex)
+\makeatletter
+\def\TikzBipolePath#1#2{\pgf@circ@bipole@path{#1}{#2}}
+\newlength{\ResUp}\newlength{\ResDown}
+\newlength{\ResLeft}\newlength{\ResRight}
+\ctikzset{bipoles/SCOPE/height/.initial=.80}
+\ctikzset{bipoles/SCOPE/width/.initial=.80}
+\pgfcircdeclarebipole{}
+  {\ctikzvalof{bipoles/SCOPE/height}}
+  {SCOPE}
+  {\ctikzvalof{bipoles/SCOPE/height}}
+  {\ctikzvalof{bipoles/SCOPE/width}}
+{
+  \pgfsetlinewidth{\pgfkeysvalueof{/tikz/circuitikz/bipoles/thickness}\pgfstartlinewidth}
+  \pgfextracty{\ResUp}{\northeast}
+  \pgfextractx{\ResRight}{\northeast}
+  \pgfextractx{\ResLeft}{\southwest}
+  \pgfextracty{\ResDown}{\southwest}
+  \def\pgfcircmathresult{\expandafter\pgf@circ@stripdecimals\pgf@circ@direction\pgf@nil}
+    \ifnum \pgfcircmathresult > 45 \ifnum \pgfcircmathresult < 135
+      \pgftransformrotate{270}
+    \fi\fi
+    \ifnum \pgfcircmathresult > 135 \ifnum \pgfcircmathresult < 225
+      \pgftransformrotate{180}
+    \fi\fi
+    \ifnum \pgfcircmathresult > 225 \ifnum \pgfcircmathresult < 315
+      \pgftransformrotate{90}
+    \fi\fi
+  \pgfpathmoveto{\pgfpoint{0.75\ResLeft}{0.25\ResDown}}
+  \pgfpathlineto{\pgfpoint{0.05\ResLeft}{0.25\ResUp}}
+  \pgfpathlineto{\pgfpoint{0.05\ResLeft}{0.25\ResDown}}
+  \pgfpathlineto{\pgfpoint{0.65\ResRight}{0.25\ResUp}}
+  \pgfpathlineto{\pgfpoint{0.65\ResRight}{0.25\ResDown}}
+  \pgfpathellipse{\pgfpointorigin}{\pgfpoint{0}{\ResUp}}{\pgfpoint{\ResLeft}{0}}
+  \pgfusepath{draw}
+}
+\def\SCOPEpath#1{\TikzBipolePath{SCOPE}{#1}}
+\tikzset{SCOPE/.style = {\circuitikzbasekey, /tikz/to path=\SCOPEpath, l=#1}}
+\makeatother
+
+\sisetup{
+  separate-uncertainty = true,
+  round-mode           = uncertainty,
+  round-precision      = 2,
+}
+
+\setstretch{1.12}
+\titlespacing*{\section}{0pt}{1.0em}{0.5em}
+\titlespacing*{\subsection}{0pt}{0.7em}{0.3em}
+
+\newcommand{\tbd}[1][TBD]{\textcolor{red}{\textbf{[#1]}}}
+
+\begin{document}
+
+% ===== TITLE BLOCK -- top-right partners + roles (rule 1) =====
+\begin{flushright}
+  \small Aditya Hiremath \tbd[role TBD]\\
+  Michael Aviv \tbd[role TBD]\\
+  Quan Phan \tbd[role TBD]
+\end{flushright}
+\vspace{-1.2em}
+
+\begin{center}
+  {\Large\bfseries \tbd[Lab 7 Title TBD]}\\[3pt]
+  \small May 26, 2026
+\end{center}
+\vspace{0.5em}
+
+\input{sections/objective.tex}
+\input{sections/theory.tex}
+\input{sections/apparatus.tex}
+\input{sections/procedure.tex}
+\input{sections/data.tex}
+\input{sections/calculations.tex}
+\input{sections/conclusion.tex}
+
+\end{document}
